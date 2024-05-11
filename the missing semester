@@ -17,7 +17,7 @@ banana0175@localhost:~$ date
 结果显示：
 Sat May 11 17:26:58 CST 2024
 
-echo 程序将指定参数打印出来。
+2.echo 程序将指定参数打印出来。
 shell 基于空格分割命令并进行解析，然后执行第一个单词代表的程序，并将后续的单词作为程序可以访问的参数。
 有：
 banana0175@localhost:~$ echo hello
@@ -26,7 +26,7 @@ hello
 banana0175@localhost:~$ echo "Hello,world"(或者Hello \World,抑或'Hello World')
 Hello,world
 
-shell 是如何知道去哪里寻找 date 或 echo 的呢？其实，类似于 Python 或 Ruby，shell 是一个编程环境。
+3.shell 是如何知道去哪里寻找 date 或 echo 的呢？其实，类似于 Python 或 Ruby，shell 是一个编程环境。
 当你在 shell 中执行命令时，您实际上是在执行一段 shell 可以解释执行的简短代码。
 如果你要求 shell 执行某个指令，但是该指令并不是 shell 所了解的编程关键字，那么它会去咨询 环境变量 $PATH，它会列出当 shell 接到某条指令时，进行程序搜索的路径：
 banana0175@localhost:~$ echo $PATH
@@ -39,12 +39,12 @@ banana0175@localhost:~$ echo $PATH
 当我们执行 echo 命令时，shell 了解到需要执行 echo 这个程序，随后它便会在 $PATH 中搜索由冒号所分割的一系列目录，基于名字搜索该程序。
 当找到该程序时便执行（假定该文件是 可执行程序，后续课程将详细讲解）。确定某个程序名代表的是哪个具体的程序，可以使用 which 程序。我们也可以绕过 $PATH，通过直接指定需要执行的程序的路径来执行该程序.
 
- Linux 文件系统。如果某个路径以/开头，那么它是一个绝对路径，其他的都是相对路径。绝对路径是完全定义文件位置的路径。
+ 4.Linux 文件系统。如果某个路径以/开头，那么它是一个绝对路径，其他的都是相对路径。绝对路径是完全定义文件位置的路径。
  相对路径是指相对于当前工作目录的路径，当前工作目录可以使用 pwd 命令来获取。
  banana0175@localhost:~$ pwd
 /home/banana0175
 
-切换目录需要使用 cd 命令。在路径中，. 表示的是当前目录，而 .. 表示上级目录：
+5.切换目录需要使用 cd 命令。在路径中，. 表示的是当前目录，而 .. 表示上级目录：
 banana0175@localhost:~$ pwd
 /home/banana0175
 banana0175@localhost:~$ cd/home
@@ -56,7 +56,7 @@ banana0175@localhost:/home$ cd banana0175
 banana0175@localhost:~$ pwd
 /home/banana0175
 
-为了查看指定目录下包含哪些文件，我们使用 ls 命令:
+6.为了查看指定目录下包含哪些文件，我们使用 ls 命令:
 banana0175@localhost:/home$ cd ..
 banana0175@localhost:/$ ls
 bin   dev  home  lib    lib64   lost+found  mnt  proc  run   semester  srv  tmp  var
@@ -72,5 +72,5 @@ drwxr-xr-x   2 root root    4096 Apr 18  2022 boot
 为了进入某个文件夹，用户需要具备该文件夹以及其父文件夹的“搜索”权限（以“可执行”：x）权限表示。为了列出它的包含的内容，用户必须对该文件夹具备读权限（r）。
 对于文件来说，权限的意义也是类似的。注意，/bin 目录下的程序在最后一组，即表示所有人的用户组中，均包含 x 权限，也就是说任何人都可以执行这些程序。
 
- mv（用于重命名或移动文件）、 cp（拷贝文件）以及 mkdir（新建文件夹）也是重要的命令。
- 请试试 man 这个程序。它会接受一个程序名作为参数，然后将它的文档（用户手册）展现给您。
+ 7.mv（用于重命名或移动文件）、 cp（拷贝文件）以及 mkdir（新建文件夹）也是重要的命令。
+ man会接受一个程序名作为参数，然后将它的文档（用户手册）展现给您。
