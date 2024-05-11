@@ -9,6 +9,8 @@ Lecture one:Course Overview + The Shell
 打开shell 提示符（您输入指令的地方），您首先需要打开 终端 。您的设备通常都已经内置了终端，或者您也可以安装一个，非常简单。
 您可以使用Windows Subsystem for Linux(https://docs.microsoft.com/en-us/windows/wsl/)在windows上以获取这一环境。
 
+一.shell的基本命令
+
 1.使用 shell
 当您打开终端时，您会看到一个提示符，它看起来一般是这个样子的：
 banana0175@localhost:~$
@@ -67,10 +69,50 @@ banana0175@localhost:/$ ls --help
 其中值得注意的是 -l，可以用长格式输出目录
 lrwxrwxrwx   1 root root       7 Nov 23 05:36 bin -> usr/bin
 drwxr-xr-x   2 root root    4096 Apr 18  2022 boot
-首先，本行第一个字符 d 表示 missing 是一个目录。然后接下来的九个字符，每三个字符构成一组。 （rwx）. 它们分别代表了文件所有者（missing），用户组（users） 以及其他所有人具有的权限。
+首先，本行第一个字符 d 表示 missing 是一个目录。然后接下来的九个字符，每三个字符构成一组。
+（rwx）. 它们分别代表了文件所有者（missing），用户组（users） 以及其他所有人具有的权限。
 其中 - 表示该用户不具备相应的权限。从上面的信息来看，只有文件所有者可以修改（w），missing 文件夹 （例如，添加或删除文件夹中的文件）。
 为了进入某个文件夹，用户需要具备该文件夹以及其父文件夹的“搜索”权限（以“可执行”：x）权限表示。为了列出它的包含的内容，用户必须对该文件夹具备读权限（r）。
 对于文件来说，权限的意义也是类似的。注意，/bin 目录下的程序在最后一组，即表示所有人的用户组中，均包含 x 权限，也就是说任何人都可以执行这些程序。
 
- 7.mv（用于重命名或移动文件）、 cp（拷贝文件）以及 mkdir（新建文件夹）也是重要的命令。
- man会接受一个程序名作为参数，然后将它的文档（用户手册）展现给您。
+7.mv（用于重命名或移动文件）、 cp（拷贝文件）以及 mkdir（新建文件夹）也是重要的命令。
+man会接受一个程序名作为参数，然后展现程序的文档（用户手册）
+对于mv:移动指令，允许重命名文件
+banana0175@localhost:~/snap$ ls
+test  ubuntu-desktop-installer
+在使用的时候，需要引入当前路径和放置路径
+banana0175@localhost:~/snap$ mv test chenshu
+banana0175@localhost:~/snap$ ls
+chenshu  ubuntu-desktop-installer
+对于cp：允许复制文件
+banana0175@localhost:~/snap/chenshu$ cp -r a ../b
+banana0175@localhost:~/snap/chenshu$ cd ../
+banana0175@localhost:~/snap$ ls
+b  chenshu  ubuntu-desktop-installer
+对于rm：允许删除文件（另有rmdir允许删除目录）
+banana0175@localhost:~/snap/chenshu$ rm -r a
+banana0175@localhost:~/snap/chenshu$ ls
+对应的，存在mkdir用来创建文件
+
+值得注意：control键加l起到clc的作用
+
+二.程序的组合与交互：流表示法
+输出流------输入流
+在 shell 中，程序有两个主要的“流”：输入流和输出流。 
+当程序尝试读取信息时，它们会从输入流中进行读取，当程序打印信息时，它们会将信息输出到输出流中。 
+通常程序的输入输出流就是终端，即键盘作为输入，显示器作为输出。但是也可以被重定向。
+
+1.使用尖括号
+左尖括号 < 表示将此程序的输入重新分配给此文件的内容
+右尖括号 > 表示将此程序的输出重新分配给此文件
+cat 显示文件的内容
+首先有：
+banana0175@localhost:~$ echo hello > hello.txt
+banana0175@localhost:~$ cat hello.txt
+hello
+cat还支持其他种类的重定向，又有：
+banana0175@localhost:~$ cat < hello.txt
+hello
+在其中，cat从文件中获取输入，则shell从文件中获得内容并将它设为cat的输入，cat将其打印到输出中。
+同时使用的情景：
+banana0175@localhost:~$ cat < hello.txt > hello2.txt
