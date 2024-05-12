@@ -159,3 +159,23 @@ drwx------ 3 banana0175 banana0175 4096 May 11 22:40 snap
     8.使用 chmod 命令改变权限，使 ./semester 能够成功执行，不要使用 sh semester 来执行该程序。您的 shell 是如何知晓这个文件需要使用 sh 来解析呢？更多信息请参考：https://en.wikipedia.org/wiki/Shebang_(Unix)
     9.使用 | 和 > ，将 semester 文件输出的最后更改日期信息，写入主目录下的 last-modified.txt 的文件中
     10.写一段命令来从 /sys 中获取笔记本的电量信息，或者台式机 CPU 的温度。注意：macOS 并没有 sysfs，所以 Mac 用户可以跳过这一题。
+
+课后练习反思:(答案见https://missing-semester-cn.github.io/missing-notes-and-solutions/2020/solutions/course-shell-solution/)
+chmod 是一个用于更改文件或目录权限的命令，其名称来自"change mode"。在Linux和Unix系统中，chmod 命令允许用户更改文件或目录的读取、写入和执行权限。以下是 chmod 命令的详细介绍：
+基本语法：chmod [选项] 模式 文件或目录
+常用选项：-R：递归操作，会同时更改目录及其所有子目录的权限。  -v：显示操作过程，详细展示每个文件的权限更改。  -c：仅在文件权限发生实际更改时显示信息。  -f：当发生错误时不显示任何信息。
+权限模式（模式）：
+格式：[ugoa][+-=][rwx]，其中：
+        u 表示文件所有者（用户）
+        g 表示文件所属组
+        o 表示其他用户
+        a 表示所有用户
+        +表示添加权限
+        -表示移除权限
+        = 表示设定权限
+示例：
+    将文件或目录的所有用户权限设置为只读：chmod a=r file.txt
+    将文件或目录的所有用户权限设置为读取、写入、执行：chmod a=rwx directory
+    为文件所有者添加执行权限：chmod u+x script.sh
+    为文件的所属组添加读取权限：chmod g+r file.txt
+    递归更改目录及其子目录的权限：chmod -R a+r directory
