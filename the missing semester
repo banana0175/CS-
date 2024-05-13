@@ -179,3 +179,44 @@ chmod 是一个用于更改文件或目录权限的命令，其名称来自"chan
     为文件所有者添加执行权限：chmod u+x script.sh
     为文件的所属组添加读取权限：chmod g+r file.txt
     递归更改目录及其子目录的权限：chmod -R a+r directory
+
+Lecture two:Shell Tools and Scripting
+
+在这节课中，我们将会展示 bash 作为脚本语言的一些基础操作，以及几种最常用的 shell 工具
+
+一.shell脚本
+
+1.创建变量
+shell中创建变量的语法是foo=bar，同时通过$foo来获得变量的值
+banana0175@localhost:~$ foo=bar
+banana0175@localhost:~$ echo $foo
+bar
+同时注意：在此处单引号与双引号用在字符串上的结果不同
+banana0175@localhost:~$ echo "The value is $e"
+The value is 2
+banana0175@localhost:~$ echo 'The value is $e'
+The value is $e
+
+2.创建函数
+bash 也支持函数，它可以接受参数并基于参数进行操作。
+有以下例子，它创建一个文件夹并使用cd进入该文件夹。
+首先创建一个函数：
+banana0175@localhost:~$ vim mcd.sh
+输入exit进入编辑模式
+mcd (){
+    mkdir -p "$1"
+    cd "$1"
+}
+~ 
+按下 Esc 键，然后输入:q！并按下 Enter 键退出该程序。
+这里 $1 是脚本的第一个参数。与其他脚本语言不同的是，bash使用了很多特殊的变量来表示参数、错误代码和相关变量。下面列举了其中一些变量：
+    $0 - 脚本名
+    $1 到 $9 - 脚本的参数。 $1 是第一个参数，依此类推。
+    $@ - 所有参数
+    $# - 参数个数
+    $? - 前一个命令的返回值
+    $$ - 当前脚本的进程识别码
+    !! - 完整的上一条命令，包括参数。常见应用：当你因为权限不足执行命令失败时，可以使用 sudo !!再尝试一次。
+    $_ - 上一条命令的最后一个参数。如果你正在使用的是交互式 shell，你可以通过按下 Esc 之后键入 . 来获取这个值
+
+3.
