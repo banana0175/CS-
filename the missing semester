@@ -208,7 +208,7 @@ mcd (){
     cd "$1"
 }
 ~ 
-按下 Esc 键，然后输入:q！并按下 Enter 键退出该程序。
+按下 Esc 键，然后输入:wq并按下 Enter 键退出该程序。
 这里 $1 是脚本的第一个参数。与其他脚本语言不同的是，bash使用了很多特殊的变量来表示参数、错误代码和相关变量。下面列举了其中一些变量：
     $0 - 脚本名
     $1 到 $9 - 脚本的参数。 $1 是第一个参数，依此类推。
@@ -219,4 +219,43 @@ mcd (){
     !! - 完整的上一条命令，包括参数。常见应用：当你因为权限不足执行命令失败时，可以使用 sudo !!再尝试一次。
     $_ - 上一条命令的最后一个参数。如果你正在使用的是交互式 shell，你可以通过按下 Esc 之后键入 . 来获取这个值
 
-3.
+3.函数的引用，加载与执行
+随后，我们用source对函数进行执行与加载
+banana0175@localhost:~$ source mcd.sh
+此时mcd函数已经在shell中被定义。随后使用 mcd命令创建了一个名为 test 的新目录，并成功进入该目录。
+banana0175@localhost:~$ mcd test
+banana0175@localhost:~/test$ cd ..
+banana0175@localhost:~$
+在定义的函数中，可以引入前文列举的参数进行操作
+banana0175@localhost:~$ rmdir test
+banana0175@localhost:~$ mkdir test
+banana0175@localhost:~$ cd $_
+banana0175@localhost:~/test$
+这个命令就是对上一条命令的参数进行操作
+
+4.函数命令的结果，输出与操作
+首先 !! 指完整的上一条命令，包括参数。常见应用：当你因为权限不足执行命令失败时，可以使用 sudo !!再尝试一次。
+banana0175@localhost:~$ mkdir /mnt/new
+mkdir: cannot create directory ‘/mnt/new’: Permission denied
+banana0175@localhost:~$ sudo !!
+sudo mkdir /mnt/new
+[sudo] password for banana0175:
+banana0175@localhost:~$
+命令通常使用 STDOUT来返回输出值，使用STDERR 来返回错误及错误码，便于脚本以更加友好的方式报告错误。 
+返回码或退出状态是脚本/命令之间交流执行状态的方式。返回值0表示正常执行，其他所有非0的返回值都表示有错误发生。
+banana0175@localhost:~$ echo "Hello"
+Hello
+banana0175@localhost:~$ echo $?
+0就表示程序正常运行，$？表示前一个命令的返回值，且true与false分别返回0和1。
+退出码可以搭配 &&（与操作符）和 ||（或操作符）使用，用来进行条件判断，决定是否执行其他程序。
+它们都属于短路运算符，同一行的多个命令可以用 ; 分隔。程序 true 的返回码永远是0，false 的返回码永远是1。
+banana0175@localhost:~$ false || echo "fail"
+fail
+banana0175@localhost:~$ true  || echo "000"
+banana0175@localhost:~$ true && echo "001"
+001
+banana0175@localhost:~$ false && echo "002"
+banana0175@localhost:~$ false ; echo "003"
+003
+得出规律:逻辑 OR 运算符 || 表示在前一个命令返回 false 时执行后面的命令，
+逻辑 AND 运算符 && 表示在前一个命令返回 true 时执行后面的命令，分号 ; 则表示无论前一个命令的结果如何都执行后面的命令。
