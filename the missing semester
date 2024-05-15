@@ -259,3 +259,17 @@ banana0175@localhost:~$ false ; echo "003"
 003
 得出规律:逻辑 OR 运算符 || 表示在前一个命令返回 false 时执行后面的命令，
 逻辑 AND 运算符 && 表示在前一个命令返回 true 时执行后面的命令，分号 ; 则表示无论前一个命令的结果如何都执行后面的命令。
+
+5.将命令的输出获取到变量中
+banana0175@localhost:~$ foo=$(pwd)
+banana0175@localhost:~$ echo "Now we are in $foo"
+Now we are in /home/banana0175
+进程替换：
+ cat <(ls) <(ls..)
+hello.txt
+hello2.txt
+last-modified.txt
+mcd.sh
+snap
+test
+banana0175
